@@ -19,12 +19,14 @@ def sample_data():
     return pd.read_csv(DATA_PATH)
 
 
+@pytest.fixture
 def test_data_exists(sample_data):
     """データが存在することを確認"""
     assert not sample_data.empty, "データセットが空です"
     assert len(sample_data) > 0, "データセットにレコードがありません"
 
 
+@pytest.fixture
 def test_data_columns(sample_data):
     """必要なカラムが存在することを確認"""
     expected_columns = [
@@ -43,6 +45,7 @@ def test_data_columns(sample_data):
         ), f"カラム '{col}' がデータセットに存在しません"
 
 
+@pytest.fixture
 def test_data_types(sample_data):
     """データ型の検証"""
     # 数値型カラム
@@ -66,6 +69,7 @@ def test_data_types(sample_data):
     ), "Survivedカラムには0, 1のみ含まれるべきです"
 
 
+@pytest.fixture
 def test_missing_values_acceptable(sample_data):
     """欠損値の許容範囲を確認"""
     # 完全に欠損するのではなく、許容範囲内の欠損を確認
@@ -76,6 +80,7 @@ def test_missing_values_acceptable(sample_data):
         ), f"カラム '{col}' の欠損率が80%を超えています: {missing_rate:.2%}"
 
 
+@pytest.fixture
 def test_value_ranges(sample_data):
     """値の範囲を検証"""
     context = gx.get_context()
