@@ -117,6 +117,7 @@ def test_model_accuracy(train_model):
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
 
+    print(f"モデルの精度: {accuracy}")
     # Titanicデータセットでは0.75以上の精度が一般的に良いとされる
     assert accuracy >= 0.75, f"モデルの精度が低すぎます: {accuracy}"
 
@@ -132,6 +133,7 @@ def test_model_inference_time(train_model):
 
     inference_time = end_time - start_time
 
+    print(f"推論時間: {inference_time}秒")
     # 推論時間が1秒未満であることを確認
     assert inference_time < 1.0, f"推論時間が長すぎます: {inference_time}秒"
 
@@ -167,6 +169,8 @@ def test_model_reproducibility(sample_data, preprocessor):
     # 同じ予測結果になることを確認
     predictions1 = model1.predict(X_test)
     predictions2 = model2.predict(X_test)
+
+    print(f"predictions1: {predictions1}, predictions2: {predictions2}")
 
     assert np.array_equal(
         predictions1, predictions2

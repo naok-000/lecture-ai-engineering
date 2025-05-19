@@ -74,6 +74,7 @@ def test_missing_values_acceptable(sample_data):
         assert (
             missing_rate < 0.8
         ), f"カラム '{col}' の欠損率が80%を超えています: {missing_rate:.2%}"
+        print(f"カラム '{col}' の欠損率: {missing_rate:.2%}")
 
 
 def test_value_ranges(sample_data):
