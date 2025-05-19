@@ -102,7 +102,6 @@ def train_model(sample_data, preprocessor):
     return model, X_test, y_test
 
 
-@pytest.fixture
 def test_model_exists():
     """モデルファイルが存在するか確認"""
     if not os.path.exists(MODEL_PATH):
@@ -110,7 +109,6 @@ def test_model_exists():
     assert os.path.exists(MODEL_PATH), "モデルファイルが存在しません"
 
 
-@pytest.fixture
 def test_model_accuracy(train_model):
     """モデルの精度を検証"""
     model, X_test, y_test = train_model
@@ -119,11 +117,11 @@ def test_model_accuracy(train_model):
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
 
+    print(f"モデルの精度: {accuracy}")
     # Titanicデータセットでは0.75以上の精度が一般的に良いとされる
     assert accuracy >= 0.75, f"モデルの精度が低すぎます: {accuracy}"
 
 
-@pytest.fixture
 def test_model_inference_time(train_model):
     """モデルの推論時間を検証"""
     model, X_test, _ = train_model
@@ -135,11 +133,11 @@ def test_model_inference_time(train_model):
 
     inference_time = end_time - start_time
 
+    print(f"推論時間: {inference_time}秒")
     # 推論時間が1秒未満であることを確認
     assert inference_time < 1.0, f"推論時間が長すぎます: {inference_time}秒"
 
 
-@pytest.fixture
 def test_model_reproducibility(sample_data, preprocessor):
     """モデルの再現性を検証"""
     # データの分割
@@ -172,6 +170,8 @@ def test_model_reproducibility(sample_data, preprocessor):
     predictions1 = model1.predict(X_test)
     predictions2 = model2.predict(X_test)
 
+    print(f"predictions1: {predictions1}, predictions2: {predictions2}")
+    
     assert np.array_equal(
         predictions1, predictions2
     ), "モデルの予測結果に再現性がありません"
